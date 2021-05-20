@@ -47,8 +47,6 @@ branches = EvTree.arrays(namedecode='utf-8',entrystop=100000)
 Branch_Names=list(branches.keys())
 
 
-# In[6]:
-
 
 sorted_Names = sorted(Branch_Names)
 
@@ -57,23 +55,7 @@ sorted_Names = sorted(Branch_Names)
 def Branch_To_Array(x,Generic_DF):
     Generic_DF.append(branches[x])
 
-
-
 sorted_Names[40]
-
-
-
-#test=[]
-#Branch_To_Array('Cer43_2_Ppeak',test)
-
-
-
-#test_2 = pd.DataFrame(test[0])
-
-
-# # Cerenkov Waveform
-
-# In[9]:
 
 
 Undefined_Entry = -1
@@ -88,10 +70,7 @@ S2_String = ['S2']
 #S2_String = ['SKIP']
 
 
-# In[11]:
 
-
-#def Cer_Split_String(x,DF_S,DF_Det,DF_Ele):
 def Cer_Calo_S2_Split(x,DF_S,DF_Det,DF_Ele):
     DF_S=(x.split("_"))
     #print(len(DF_S))
@@ -130,27 +109,12 @@ def Cer_Calo_S2_Split(x,DF_S,DF_Det,DF_Ele):
         DF_Ele.append("Skip")
 
 
-# In[13]:
 
 
 test_s=[]
 test_Det=[]
 test_Ele=[]
 Cer_Calo_S2_Split(sorted_Names[40],test_s,test_Det,test_Ele)
-
-
-# In[15]:
-
-
-#test_Det,test_Ele
-
-
-
-#del Praw,Ptime,Peak,Ped,Ptime_sum,Peak_sum
-#gc.collect()
-
-
-# In[12]:
 
 Praw = []
 Ptime= []
@@ -223,9 +187,6 @@ for i in range(1,len(sorted_Names)):
         continue 
 
 
-# In[16]:
-
-# exclude S2 
 Praw = Praw[0:104]
 Ped = Ped[0:104]
 Ped_err = Ped_err[0:104]
@@ -290,8 +251,6 @@ for i in range(len(Praw)):
     Max_Val[i] = pd.DataFrame(Max_Val[i],columns=['Max_Peak'])
     Max_Val[i]['Max_Peak_Pos'] = Praw[i].idxmax(axis=1)
     Max_Val[i]['Max_Peak_Pos'] = Max_Val[i]['Max_Peak_Pos'].astype(int)
-    #Max_Val[i]['Max_Peak_Upper'] = Max_Val[i]['Max_Peak_Pos']+1
-    #Max_Val[i]['Max_Peak_Lower'] = Max_Val[i]['Max_Peak_Pos']-1
 
 Filter_Ped =[[],]*len(Ped)
 Ped_Error = [[],]*len(Ped_err)
@@ -769,45 +728,9 @@ for i in range(len(Combined_Summation)):
     Calo_Event_Wise_Sum[i] = Combined_Summation[i][Combined_Summation[i]['detector']!='Cer']
 
 
-#Ring_Events = [[],]*len(Summation)
-#for i in range(len(Summation)):
-#    tmp_Ring_1 = Summation[i][Summation[i]['Num_PMTs']>12]
-#    tmp_Ring_2 = tmp_Ring_1[tmp_Ring_1['Num_PMTs']<24]
-#    if (len(tmp_Ring_2)>0):
-#        Ring_Events[i] = tmp_Ring_2
-
-
-#Ring_Summation = pd.concat(Ring_Events,axis=0)
-#Ring_Summation.reset_index(inplace=True,drop=True)
-
-
-#Total_Ring_Group = Ring_Summation.groupby('index')
-#Total_Ring_Keys = list(Total_Ring_Group.groups.keys())
-
-
-#Event_Ring_Sum =[]
-#for i in range(len(Total_Ring_Keys)):
-    #Event_Ring_Sum.append(Total_Ring_Group.get_group(Total_Ring_Keys[i]))
-
 for i in range(len(Event_Ring_Sum)):
     Event_Ring_Sum[i]['Map_ID'] = (Event_Ring_Sum[i]['PMT_ID'].astype(str)+ Event_Ring_Sum[i]['Pixel_ID'].astype(str)).astype(int)
     Calo_Ring_Sum[i]['Map_ID'] = (Calo_Ring_Sum[i]['PMT_ID'].astype(str)+ Calo_Ring_Sum[i]['Pixel_ID'].astype(str)).astype(int)
-
-#for i in range(len(Summation)):
-#    tmp_bad_1 = Summation[i][Summation[i]['Num_PMTs']>12]
-#    tmp_bad_2 = Summation[i][Summation[i]['Num_PMTs']<24]
-#    Summation[i] = pd.concat([tmp_bad_1,tmp_bad_2],axis=0)
-
-#Total_Summation = pd.concat(Summation,axis=0)
-#Total_Summation.reset_index(inplace=True,drop=True)
-
-#Total_Sum_Group = Total_Summation.groupby('index')
-#Total_Sum_Keys = list(Total_Sum_Group.groups.keys())
-
-
-#Event_Wise_Sum =[]
-#for i in range(len(Total_Sum_Keys)):
-#    Event_Wise_Sum.append(Total_Sum_Group.get_group(Total_Sum_Keys[i]))
 
 for i in range(len(Event_Wise_Sum)):
     Event_Wise_Sum[i]['Map_ID'] = (Event_Wise_Sum[i]['PMT_ID'].astype(str)+ Event_Wise_Sum[i]['Pixel_ID'].astype(str)).astype(int)
@@ -920,48 +843,6 @@ Good_Hit_Time_Map= np.stack(Hit_Map_Ring_Time)
 
 np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Total_Hit_Map_302.npy',Good_Hit_Map)
 np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Total_Hit_Map_302_Time.npy',Good_Hit_Time_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Good_Calo_Hit_Map_302.npy',Good_Calo_Hit_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Good_Calo_Hit_Map_302_Time.npy',Good_Calo_Hit_Time_Map)
-
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Bad_Hit_Map_302.npy',Bad_Hit_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Bad_Hit_Map_302_Time.npy',Bad_Hit_Time_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Bad_Calo_Hit_Map_302.npy',Bad_Calo_Hit_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Bad_Calo_Hit_Map_302_Time.npy',Bad_Calo_Hit_Time_Map)
-
-
-
-
-
-
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Total_Hit_Map_302_Bad.npy',Combined_Hit_Map)
-#np.save('/lustre19/expphy/volatile/halla/triton/mnycz/SOLID/ML/Total_Hit_Map_302_Bad_Time.npy',Combined_Hit_Map)
-
-
-
-# set up variables for printing
-#x_fill_pos = []
-#for i in range(len(Combined_Integration)):
-#    x_fill_pos.append(Waveform_Cer_PMT[i].iloc[0][Combined_Integration[i]['Int_2'].iloc[0]:Combined_Integration[i]['Int_3'].iloc[0]].index)
-
-# List Comprehension
-#for i in range(len(x_fill_pos)):
-#    x_fill_pos[i] = [int(i) for i in x_fill_pos[i]]
-
-#y_value = []
-
-#for i in range(len(Combined_Integration)):
-#    y_value.append(Waveform_Cer_PMT[i].iloc[0][Combined_Integration[i]['Int_2'].iloc[0]:Combined_Integration[i]['Int_3'].iloc[0]])
-
-
-# Make waveform plots:
-#Cher_Names= ['11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44']
-#for i in range(4):
-#    fig=plt.subplot(2,2,i+1)
-#    plt.plot(Waveform_Cer_PMT[i].iloc[0],lw=2,color='black')
-#    plt.fill_between(x_fill_pos[i],0,y_value[i])
-#    plt.xticks(np.arange(0,60,5))
-#    plt.xlabel('11_%d'%i)
-    
 
 
 
