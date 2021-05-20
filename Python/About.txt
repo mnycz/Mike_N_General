@@ -1,1 +1,2 @@
 Python script to read in root file using uproot. The analysis is looking at output from scintilators, Cerenkov, and Calorimeter PMTs
+The singals are read out as both sums of respectice quadrants and invididual, this was meant as an attempt to identify the rings of produces in the RICH detector
