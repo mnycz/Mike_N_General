@@ -2,12 +2,13 @@
 
 using namespace ROOT;
 
+// structure to return two values
 
 struct Histo_Values{
   double hist_mean;
   double hist_sigma;
 };
-
+// Function for Gaussian fits
 Histo_Values mean_value(TF1* fit,TH1D histo){
   histo.Fit(fit,"QR");
   Histo_Values tmp1;
@@ -46,7 +47,7 @@ void DataQuality(){
   const char *dirname;
 
   ofstream outFile;
-
+   // Location of rootfiles 
   if (!Spectrometer.compare("HMS")){
     dirname = "/lustre19/expphy/volatile/hallc/c-polhe3/mnycz/ROOTfiles/HMS/";
     outFile.open("HMS_Data_Summary.csv");
@@ -63,6 +64,7 @@ void DataQuality(){
   vector<string> Filename;
   vector<int> Run_Number;
 
+// We want to check all the HMS and SHMS runs (separately). This below will only check fully replayed rootfiles (_-1.root) 
   TSystemDirectory dir(dirname, dirname); 
   TList *files = dir.GetListOfFiles(); 
   if (files){
@@ -85,14 +87,6 @@ void DataQuality(){
       TString tmp =  Filename[i];
       int tmp_number = std::stoi(tmp(filePattern));
       Run_Number.push_back(tmp_number);
-      //if( filePattern.Substitute(tmp,"$2") == 1) {// use 2nd match
-      //Run_Number.push_back(tmp.Atoi());
-      //cout<<"tmp.Atoi()"<<"\t"<<tmp.Atoi()<<endl;
-      //}
-      //else {
-      //cerr << Form(" -!-> Filename(%s) doesn't match pattern /%s/\n",
-      //	     Filename[i], filePattern.GetPattern());
-      //}
     }
 
   ROOT::EnableImplicitMT(1);
